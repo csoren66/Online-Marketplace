@@ -1,13 +1,12 @@
-from django.urls import path
-
-from . import views
-
-app_name = 'item'
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.items, name='items'),
-    path('new/', views.new, name='new'),
-    path('<int:pk>/', views.detail, name='detail'),
-    path('<int:pk>/delete/', views.delete, name='delete'),
-    path('<int:pk>/edit/', views.edit, name='edit'),
-]
+    path('', include('core.urls')),
+    path('items/', include('item.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    path('inbox/', include('conversation.urls')),
+    path('admin/', admin.site.urls),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
